@@ -65,6 +65,36 @@
 			"response": []
 		},
 		{
+			"name": "Get Budget Items by Filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/budget-items/filter?vendor=&category=",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "vendor",
+							"value": ""
+						},
+						{
+							"key": "category",
+							"value": ""
+						}
+					]
+				},
+				"description": "Get all budget items that match any of the query parameters."
+			},
+			"response": []
+		},
+		{
 			"name": "Create New Budget Item",
 			"request": {
 				"method": "POST",

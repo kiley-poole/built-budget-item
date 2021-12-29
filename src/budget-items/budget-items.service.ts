@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, getRepository, Repository } from 'typeorm';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
 import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
 import { BudgetItem } from './entities/budget-item.entity';
@@ -50,5 +50,14 @@ export class BudgetItemsService {
 
   async remove(id: number): Promise<DeleteResult> {
     return await this.budgetItemRepository.delete(id);
+  }
+
+  async findByFilter(vendor: string, category: string): Promise<BudgetItem[]> {
+    const filteredBudgetItems = await getRepository(BudgetItem)
+        .createQueryBuilder("budget-items")
+        .where("budget-items.vendor = :vendor", { vendor })
+        .orWhere("budget-items.category = :category", { category })
+        .getMany();
+    return filteredBudgetItems;
   }
 }

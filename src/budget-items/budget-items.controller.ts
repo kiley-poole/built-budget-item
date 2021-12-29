@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ParseIntPipe, Query } from '@nestjs/common';
 import { JoiValidationPipe } from 'src/joi-validation.pipe';
 import { DeleteResult } from 'typeorm';
 import { BudgetItemsService } from './budget-items.service';
@@ -15,6 +15,14 @@ export class BudgetItemsController {
   @UsePipes(new JoiValidationPipe(CreatedBudgetItemSchema))
   create(@Body() createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
     return this.budgetItemsService.create(createBudgetItemDto);
+  }
+  
+  @Get('filter')
+  findByFilter(
+    @Query('vendor') vendor: string, 
+    @Query('category') category: string
+    ): Promise<BudgetItem[]>{
+    return this.budgetItemsService.findByFilter(vendor, category)
   }
 
   @Get()
