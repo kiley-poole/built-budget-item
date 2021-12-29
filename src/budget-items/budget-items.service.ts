@@ -17,8 +17,8 @@ export class BudgetItemsService {
     return 'This action adds a new budgetItem';
   }
 
-  findAll() {
-    return `This action returns all budgetItems`;
+  async findAll() {
+    return await this.budgetItemRepository.find();
   }
 
   findOne(id: number) {
