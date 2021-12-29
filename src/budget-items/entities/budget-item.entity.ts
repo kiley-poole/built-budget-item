@@ -20,6 +20,6 @@ export class BudgetItem {
     @Column()
     category: string;
 
-    @Column()
+    @Column({default: false})
     overDue: boolean;
 }

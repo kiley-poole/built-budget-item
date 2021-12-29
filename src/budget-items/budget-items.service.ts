@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
 import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
 import { BudgetItem } from './entities/budget-item.entity';
@@ -13,23 +13,42 @@ export class BudgetItemsService {
   ){}
 
 
-  create(createBudgetItemDto: CreateBudgetItemDto) {
-    return 'This action adds a new budgetItem';
+  async create(createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
+    const newBudgetItem = this.budgetItemRepository.create(createBudgetItemDto);
+
+    return await this.budgetItemRepository.save(newBudgetItem);
   }
 
-  async findAll() {
+  async findAll(): Promise<BudgetItem[]> {
     return await this.budgetItemRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} budgetItem`;
+  async findOne(id: number): Promise<BudgetItem>{
+    const foundBudgetItem = await this.budgetItemRepository.findOne(id);
+
+    if(!foundBudgetItem) {
+      throw new NotFoundException("Budget Item not found.");
+    }
+
+    return foundBudgetItem;
   }
 
-  update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
-    return `This action updates a #${id} budgetItem`;
+  async update(id: number, updateBudgetItemDto: UpdateBudgetItemDto): Promise<BudgetItem>{
+    const foundBudgetItem = await this.budgetItemRepository.findOne(id);
+
+    if(!foundBudgetItem) {
+      throw new NotFoundException("Budget Item not found.");
+    }
+
+    const updatedBudgetItem = this.budgetItemRepository.create({
+      ...foundBudgetItem,
+      ...updateBudgetItemDto
+    });
+
+    return await this.budgetItemRepository.save(updatedBudgetItem);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} budgetItem`;
+  async remove(id: number): Promise<DeleteResult> {
+    return await this.budgetItemRepository.delete(id);
   }
 }

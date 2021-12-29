@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "569c2994-55c5-4b84-9283-f33c937e8b6a",
+		"name": "Built Tech - Budget Item",
+		"description": "Postman API collection for Budget Item based CRUD backend.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Budget Items",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/budget-items",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items"
+					]
+				},
+				"description": "Gets all budget items available."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Budget Item by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/budget-items/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "id of budget item to find"
+						}
+					]
+				},
+				"description": "Selects specific budget item filtered by passing numeric ID as a parameter."
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Budget Item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"test description\",\r\n    \"vendor\": \"test vendor\",\r\n    \"dueDate\": \"2021-12-29\",\r\n    \"paymentAmount\": 1000,\r\n    \"category\": \"test category\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/budget-items",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items"
+					]
+				},
+				"description": "Creates new budget item based on request body. All fields are required except `overDue`. New budget item will have the field `overDue` set to false on creation by default - can override."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Existing Budget Item",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"updated description\",\r\n    \"vendor\": \"updated vendor\",\r\n    \"dueDate\": \"2021-12-15\",\r\n    \"paymentAmount\": 1000,\r\n    \"category\": \"updated category\",\r\n    \"overDue\": true\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/budget-items/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "id of budget item to update"
+						}
+					]
+				},
+				"description": "Updates existing budget item based on ID. All fields can currently be updated."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Budget Item by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/budget-items/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"budget-items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "id of budget item to delete"
+						}
+					]
+				},
+				"description": "Deletes an existing budget item based on ID. Returns affected count based on successful delete."
+			},
+			"response": []
+		}
+	]
+}
