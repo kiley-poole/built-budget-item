@@ -16,7 +16,11 @@ import { BudgetItem } from './budget-items/entities/budget-item.entity';
       "password": "password",
       "database": "built_tech",
       "entities": [BudgetItem],
-      "synchronize": true,
+      "synchronize": false,
+      "migrations": ["migration/*.js"],
+      "cli": {
+          "migrationsDir": "migration"
+      }
     })
   ],
   controllers: [AppController],
