@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ParseIntPipe, Query } from '@nestjs/common';
-import { JoiValidationPipe } from 'src/joi-validation.pipe';
+import { JoiValidationPipe } from '../joi-validation.pipe';
 import { DeleteResult } from 'typeorm';
 import { BudgetItemsService } from './budget-items.service';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
