@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+  node:
+    container_name: built-budget-item
+    build: 
+      context: ./
+      dockerfile: ./docker/node/Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: npm run start:debug
+    networks:
+      - nestjs
+    depends_on:
+      - db
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'built_tech'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - database-storage:/var/lib/mysql
+    networks:
+      - nestjs
+networks:
+  nestjs:  
+volumes:
+  database-storage:
