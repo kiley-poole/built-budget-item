@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, getRepository, Repository } from 'typeorm';
+import { DeleteResult, getRepository, QueryBuilder, Repository } from 'typeorm';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
 import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
 import { BudgetItem } from './entities/budget-item.entity';
@@ -53,11 +53,13 @@ export class BudgetItemsService {
   }
 
   async findByFilter(vendor: string, category: string): Promise<BudgetItem[]> {
-    const filteredBudgetItems = await getRepository(BudgetItem)
-        .createQueryBuilder("budget-items")
-        .where("budget-items.vendor = :vendor", { vendor })
-        .orWhere("budget-items.category = :category", { category })
-        .getMany();
-    return filteredBudgetItems;
+    const budgetItemsQuery = getRepository(BudgetItem).createQueryBuilder("budget-items");
+    if(vendor){
+      budgetItemsQuery.where("budget-items.vendor = :vendor", { vendor })
+    }
+    if(category){
+      budgetItemsQuery.andWhere("budget-items.category = :category", { category })
+    }   
+    return await budgetItemsQuery.getMany();
   }
 }
