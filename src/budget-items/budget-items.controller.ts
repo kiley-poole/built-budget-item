@@ -13,38 +13,38 @@ export class BudgetItemsController {
 
   @Post()
   @UsePipes(new JoiValidationPipe(CreatedBudgetItemSchema))
-  create(@Body() createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
-    return this.budgetItemsService.create(createBudgetItemDto);
+  async create(@Body() createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
+    return await this.budgetItemsService.create(createBudgetItemDto);
   }
   
   @Get('filter')
-  findByFilter(
+  async findByFilter(
     @Query('vendor') vendor: string, 
     @Query('category') category: string
     ): Promise<BudgetItem[]>{
-    return this.budgetItemsService.findByFilter(vendor, category)
+    return await this.budgetItemsService.findByFilter(vendor, category)
   }
 
   @Get()
-  findAll(): Promise<BudgetItem[]> {
-    return this.budgetItemsService.findAll();
+  async findAll(): Promise<BudgetItem[]> {
+    return await this.budgetItemsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string): Promise<BudgetItem> {
-    return this.budgetItemsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: string): Promise<BudgetItem> {
+    return await this.budgetItemsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: string, 
     @Body(new JoiValidationPipe(UpdateBudgetItemSchema)) updateBudgetItemDto: UpdateBudgetItemDto
     ): Promise<BudgetItem> {
-    return this.budgetItemsService.update(+id, updateBudgetItemDto);
+    return await this.budgetItemsService.update(+id, updateBudgetItemDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: string): Promise<DeleteResult> {
-    return this.budgetItemsService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: string): Promise<DeleteResult> {
+    return await this.budgetItemsService.remove(+id);
   }
 }

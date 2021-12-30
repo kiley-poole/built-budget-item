@@ -54,12 +54,15 @@ export class BudgetItemsService {
 
   async findByFilter(vendor: string, category: string): Promise<BudgetItem[]> {
     const budgetItemsQuery = getRepository(BudgetItem).createQueryBuilder("budget-items");
+    
     if(vendor){
       budgetItemsQuery.where("budget-items.vendor = :vendor", { vendor })
     }
+    
     if(category){
       budgetItemsQuery.andWhere("budget-items.category = :category", { category })
     }   
+    
     return await budgetItemsQuery.getMany();
   }
 }
